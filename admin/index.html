@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f9fc">
+  <meta name="dns-theme-admin-api" content="https://REPLACE-WITH-YOUR-WORKER.workers.dev">
+  <title>Theme Admin — DNS Browser Apps</title>
+  <link rel="stylesheet" href="admin.css?v=1">
+  <script src="admin.js?v=1" defer></script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="../" aria-label="Back to DNS Browser Apps">
+        <span class="brand-mark">D</span>
+        <span><strong>DNS BROWSER</strong><small>THEME ADMINISTRATION</small></span>
+      </a>
+      <a class="back-link" href="../">← Back to store</a>
+    </header>
+
+    <main>
+      <section class="login-wrap" id="login-screen">
+        <div class="login-card">
+          <div class="login-icon">⌘</div>
+          <p class="eyebrow">Private workspace</p>
+          <h1>Theme administration</h1>
+          <p class="muted">Sign in to manage wallpapers published in the DNS Browser collection.</p>
+          <form id="login-form">
+            <label for="admin-password">Admin password</label>
+            <input id="admin-password" name="password" type="password" autocomplete="current-password" required placeholder="Enter your admin password">
+            <button class="primary-button full-button" id="login-button" type="submit">Unlock dashboard <span>→</span></button>
+            <p class="form-error" id="login-error" role="alert" hidden></p>
+          </form>
+          <p class="security-note"><span>🔒</span> Password verification and repository writes are handled by a private Cloudflare Worker. No password or GitHub token is stored in this page.</p>
+        </div>
+      </section>
+
+      <section class="dashboard" id="dashboard" hidden>
+        <div class="dashboard-heading">
+          <div>
+            <p class="eyebrow">Content management</p>
+            <h1>Your theme collection</h1>
+            <p class="muted">Upload a wallpaper, add its details, and publish it to the live store.</p>
+          </div>
+          <div class="heading-actions">
+            <button class="secondary-button" id="refresh-button" type="button">↻ Refresh</button>
+            <button class="secondary-button" id="logout-button" type="button">Sign out</button>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <section class="panel editor-panel">
+            <div class="panel-heading">
+              <div><p class="eyebrow">Theme editor</p><h2 id="editor-heading">Add a new theme</h2></div>
+              <span class="mode-pill" id="editor-mode">NEW THEME</span>
+            </div>
+            <form id="theme-form">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="theme-name">Theme name</label>
+                  <input id="theme-name" name="name" maxlength="80" required placeholder="e.g. Midnight Bloom">
+                </div>
+                <div class="field">
+                  <label for="theme-id">Theme ID</label>
+                  <input id="theme-id" name="id" maxlength="48" pattern="[a-z0-9]+(?:-[a-z0-9]+)*" required placeholder="midnight-bloom">
+                  <small>Lowercase letters, numbers and hyphens only.</small>
+                </div>
+                <div class="field">
+                  <label for="theme-category">Category</label>
+                  <select id="theme-category" name="category" required>
+                    <option value="Anime">Anime</option>
+                    <option value="Minimal">Minimal</option>
+                    <option value="Nature">Nature</option>
+                    <option value="Abstract">Abstract</option>
+                    <option value="Gaming">Gaming</option>
+                    <option value="Dark">Dark</option>
+                    <option value="Aesthetic">Aesthetic</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div class="field field-wide">
+                  <label for="theme-description">Description</label>
+                  <textarea id="theme-description" name="description" rows="3" maxlength="500" required placeholder="Describe the wallpaper's style, mood, colours…"></textarea>
+                  <small><span id="description-count">0</span>/500 characters</small>
+                </div>
+                <div class="field field-wide">
+                  <label for="theme-image">Wallpaper image <span class="optional-label" id="image-required-label">Required</span></label>
+                  <input id="theme-image" name="image" type="file" accept="image/png,image/jpeg,.png,.jpg,.jpeg">
+                  <small>PNG or JPEG · maximum 15 MB. A new image is required when creating a theme; optional when editing.</small>
+                </div>
+              </div>
+
+              <div class="image-preview-wrap" id="image-preview-wrap" hidden>
+                <img id="image-preview" alt="Selected wallpaper preview">
+                <div><strong id="image-preview-name">Wallpaper preview</strong><small id="image-preview-size"></small></div>
+                <button id="clear-image-button" type="button" class="icon-button" aria-label="Clear selected image">×</button>
+              </div>
+              <div class="editor-actions">
+                <button class="primary-button" id="save-theme-button" type="submit">Publish theme <span>→</span></button>
+                <button class="secondary-button" id="reset-form-button" type="button">Clear form</button>
+              </div>
+              <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+            </form>
+          </section>
+
+          <section class="panel catalogue-panel">
+            <div class="panel-heading">
+              <div><p class="eyebrow">Published content</p><h2>Live catalogue</h2></div>
+              <span class="count-pill" id="theme-count">0 themes</span>
+            </div>
+            <div class="theme-list" id="theme-list">
+              <div class="list-loading">Loading catalogue…</div>
+            </div>
+          </section>
+        </div>
+        <p class="dashboard-footnote"><span>ⓘ</span> Publishing creates a commit in the theme repository. The store updates from <code>themes/catalog.json</code>; GitHub Pages may take a short time to refresh its cache.</p>
+      </section>
+    </main>
+
+    <div class="toast" id="admin-toast" role="status" aria-live="polite"></div>
+    <dialog class="confirm-dialog" id="delete-dialog">
+      <div class="confirm-content">
+        <span class="warning-icon">!</span>
+        <h2>Remove this theme?</h2>
+        <p id="delete-description">This theme will disappear from the public catalogue.</p>
+        <div class="confirm-actions">
+          <button class="secondary-button" id="cancel-delete" type="button">Cancel</button>
+          <button class="danger-button" id="confirm-delete" type="button">Remove theme</button>
+        </div>
+      </div>
+    </dialog>
+  </div>
+</body>
+</html>

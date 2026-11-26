@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" href="https://miveyo.github.io/assets/images/dns-browser-logo.webp">
 <link rel="stylesheet" href="assets/css/app-store.css?v=2">
-<link rel="stylesheet" href="assets/css/app-store-ui.css?v=1">
+<link rel="stylesheet" href="assets/css/app-store-ui.css?v=2">
 <script>
 (function () {
     const root = document.documentElement;
@@ -119,35 +119,13 @@
     <div class="section-head"><div><div class="eyebrow">Personalize your start page</div><h2>New Tab Themes</h2></div><p>Give your new tab a fresh look with themes made for DNS Browser. Preview a wallpaper, then install it directly into your browser.</p></div>
     <div class="catalog-toolbar">
       <label class="search-box" for="theme-search"><span aria-hidden="true">⌕</span><input id="theme-search" type="search" placeholder="Search themes..." autocomplete="off"><kbd>Ctrl K</kbd></label>
-      <div class="filters" role="group" aria-label="Filter themes">
-        <button class="filter-chip active" type="button" data-filter="all" aria-pressed="true">All themes</button>
-        <button class="filter-chip" type="button" data-filter="minimal" aria-pressed="false">Minimal</button>
-        <button class="filter-chip" type="button" data-filter="anime" aria-pressed="false">Anime</button>
-        <button class="filter-chip" type="button" data-filter="nature" aria-pressed="false">Nature</button>
-        <button class="filter-chip" type="button" data-filter="abstract" aria-pressed="false">Abstract</button>
-      </div>
+      <div class="filters" id="theme-filters" role="group" aria-label="Filter themes"></div>
     </div>
 
-    <div class="catalog-grid" id="theme-grid">
-      <article class="theme-card" data-category="minimal" data-search="cloudline minimal blue sky clean calm">
-        <button class="theme-preview preview-cloudline" type="button" data-preview="cloudline" aria-label="Preview Cloudline theme"><span class="preview-label">NEW TAB PREVIEW</span><i class="art-sun"></i><i class="art-cloud cloud-a"></i><i class="art-cloud cloud-b"></i><i class="art-hill hill-a"></i><i class="art-hill hill-b"></i></button>
-        <div class="theme-info"><div class="theme-title-row"><h3>Cloudline</h3><span class="theme-kind">Minimal</span></div><p>A quiet blue horizon with plenty of breathing room.</p><div class="theme-bottom"><span class="theme-status">Preview only</span><button class="text-button" type="button" disabled aria-disabled="true">Coming soon</button></div></div>
-      </article>
-      <article class="theme-card" data-category="anime" data-search="lavender quiet anime pastel purple character illustration">
-        <button class="theme-preview preview-lavender has-theme-image" type="button" data-preview="lavender" aria-label="Preview Lavender Quiet wallpaper"><img class="theme-card-image" src="themes/lavender/background.png" alt="Lavender Quiet wallpaper" loading="lazy"><span class="preview-label">WALLPAPER PREVIEW</span></button>
-        <div class="theme-info"><div class="theme-title-row"><h3>Lavender Quiet</h3><span class="theme-kind">Anime</span></div><p>A soft pastel concept with a calm, dreamy mood.</p><div class="theme-bottom"><span class="theme-status theme-status-available">Available now</span><button class="text-button" type="button" data-install="lavender">Install <span aria-hidden="true">→</span></button></div></div>
-      </article>
-      <article class="theme-card" data-category="nature" data-search="moss morning nature forest green calm">
-        <button class="theme-preview preview-moss" type="button" data-preview="moss" aria-label="Preview Moss Morning theme"><span class="preview-label">NEW TAB PREVIEW</span><i class="moss-sun"></i><i class="moss-leaf leaf-a"></i><i class="moss-leaf leaf-b"></i><i class="moss-ridge ridge-a"></i><i class="moss-ridge ridge-b"></i></button>
-        <div class="theme-info"><div class="theme-title-row"><h3>Moss Morning</h3><span class="theme-kind">Nature</span></div><p>Muted greens inspired by a slow morning outdoors.</p><div class="theme-bottom"><span class="theme-status">Preview only</span><button class="text-button" type="button" disabled aria-disabled="true">Coming soon</button></div></div>
-      </article>
-      <article class="theme-card" data-category="abstract" data-search="soft geometry abstract gradient shapes blue pink">
-        <button class="theme-preview preview-geometry" type="button" data-preview="geometry" aria-label="Preview Soft Geometry theme"><span class="preview-label">NEW TAB PREVIEW</span><i class="geo-shape geo-one"></i><i class="geo-shape geo-two"></i><i class="geo-shape geo-three"></i></button>
-        <div class="theme-info"><div class="theme-title-row"><h3>Soft Geometry</h3><span class="theme-kind">Abstract</span></div><p>Rounded shapes and gentle color for a clean desktop.</p><div class="theme-bottom"><span class="theme-status">Preview only</span><button class="text-button" type="button" disabled aria-disabled="true">Coming soon</button></div></div>
-      </article>
-    </div>
+    <div class="catalog-grid" id="theme-grid" aria-live="polite"></div>
+    <div class="catalog-loading" id="catalog-loading" role="status">Loading themes…</div>
     <div class="empty-state" id="empty-state" hidden><div class="empty-icon">⌕</div><h3>No themes found</h3><p>Try another search or choose a different category.</p><button class="btn secondary" type="button" id="clear-filters">Clear filters</button></div>
-    <p class="catalog-note"><span class="note-dot"></span> Lavender Quiet is available to install now. More wallpapers will appear here as they are published.</p>
+    <p class="catalog-note"><span class="note-dot"></span> Browse the published collection. New themes added by Miveyo appear here automatically.</p>
   </div>
 </section>
 
@@ -173,7 +151,7 @@
 
 <footer class="site-footer"><div class="container footer-inner">
   <div class="footer-brand-block"><a class="brand footer-brand" href="#"><span class="brand-mark">D</span><span class="brand-copy"><span class="brand-name">DNS BROWSER</span><span class="brand-sub">APPS &amp; CUSTOMIZATION</span></span></a><p>Made for DNS Browser by Miveyo.</p><span class="footer-copy">© 2026 Miveyo. All rights reserved.</span></div>
-  <div class="footer-links"><a href="#themes">New Tab Themes</a><a href="#coming-soon">Coming soon</a><a href="#how-it-works">How it works</a><a href="https://miveyo.github.io/">Miveyo ↗</a></div>
+  <div class="footer-links"><a href="#themes">New Tab Themes</a><a href="#coming-soon">Coming soon</a><a href="#how-it-works">How it works</a><a href="admin/">Admin ↗</a><a href="https://miveyo.github.io/">Miveyo ↗</a></div>
 </div></footer>
 </div>
 
@@ -184,6 +162,6 @@
   <button class="toast-close" id="toast-close" type="button" aria-label="Dismiss notification">×</button>
 </div>
 <dialog class="theme-dialog" id="theme-dialog"><form method="dialog"><button class="dialog-close" aria-label="Close preview">×</button></form><div class="dialog-art" id="dialog-art"></div><div class="dialog-body"><span class="pill">Theme preview</span><h2 id="dialog-title">Theme name</h2><p id="dialog-description">Theme description</p><button class="btn" type="button" id="dialog-install">Install theme <span aria-hidden="true">→</span></button></div></dialog>
-<script src="assets/js/app-store.js?v=6" defer></script>
+<script src="assets/js/app-store.js?v=7" defer></script>
 </body>
 </html>

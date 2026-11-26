@@ -1,0 +1,11 @@
+name = "dnsbrowser-theme-admin"
+main = "src/index.js"
+compatibility_date = "2026-11-26"
+workers_dev = true
+
+[vars]
+GITHUB_OWNER = "dnsbrowserapp"
+GITHUB_REPO = "dnsbrowserapp.github.io"
+GITHUB_BRANCH = "main"
+GITHUB_PAGES_BASE = "https://dnsbrowserapp.github.io"
+ALLOWED_ORIGIN = "https://dnsbrowserapp.github.io"
