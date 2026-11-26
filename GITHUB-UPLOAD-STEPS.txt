@@ -1,0 +1,15 @@
+DNS BROWSER APPS — UPLOAD TO GITHUB PAGES
+
+1. Download dnsbrowserapp-site.zip and extract it.
+2. Open https://github.com/dnsbrowserapp/dnsbrowserapp.github.io
+3. Make sure the selected branch is main.
+4. Choose Add file > Upload files.
+5. Open the extracted dnsbrowserapp-site folder and upload its CONTENTS into the repository root. Do not upload the enclosing folder as a single nested directory.
+6. Replace the repository's existing README.md with the one included here when GitHub asks.
+7. Commit the upload to main.
+8. In Settings > Pages, confirm deployment source is main and /(root).
+9. After Pages finishes deploying, test:
+   - Normal browser: https://dnsbrowserapp.github.io/ (should show unsupported browser)
+   - Design preview: https://dnsbrowserapp.github.io/?preview=1
+
+The install buttons are placeholders until the DNS Browser CefSharp bridge is implemented.

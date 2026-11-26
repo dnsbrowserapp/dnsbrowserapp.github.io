@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DNS Browser Apps — Themes & more</title>
+<meta name="description" content="Discover new tab themes and future add-ons for DNS Browser by Miveyo.">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="https://miveyo.github.io/assets/images/dns-browser-logo.webp">
+<link rel="stylesheet" href="assets/css/app-store.css">
+<script>
+(function(){
+  const preview = new URLSearchParams(location.search).get('preview') === '1';
+  const supported = /DNSBrowser|MiveyoDNS/i.test(navigator.userAgent);
+  document.documentElement.classList.add(supported || preview ? 'browser-supported' : 'browser-unsupported');
+  if (preview && !supported) document.documentElement.classList.add('preview-mode');
+})();
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div id="unsupported-screen" class="unsupported-screen" role="main">
+  <div class="unsupported-card">
+    <div class="brand-mark brand-mark-large">D</div>
+    <div class="eyebrow">DNS Browser Apps</div>
+    <h1>Your browser isn't supported.</h1>
+    <p>DNS Browser Apps is designed to work with DNS Browser. Open this page in DNS Browser 3.0 to browse themes and install them directly.</p>
+    <a class="btn" href="https://miveyo.github.io/dns-browser.html">Discover DNS Browser <span aria-hidden="true">→</span></a>
+    <p class="unsupported-foot">Using a development build? <a href="?preview=1">Open the website preview</a>.</p>
+  </div>
+</div>
+
+<div id="store-app">
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="#" aria-label="DNS Browser Apps home">
+      <span class="brand-mark">D</span>
+      <span class="brand-copy"><span class="brand-name">DNS BROWSER</span><span class="brand-sub">APPS &amp; CUSTOMIZATION</span></span>
+    </a>
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="active" href="#themes">New Tab Themes</a>
+      <a class="nav-disabled" href="#coming-soon" aria-disabled="true">Apps <span class="mini-soon">Soon</span></a>
+      <a href="#how-it-works">How it works</a>
+      <a class="nav-cta" href="https://miveyo.github.io/dns-browser.html">About DNS Browser <span aria-hidden="true">↗</span></a>
+    </nav>
+    <details class="mobile-menu">
+      <summary>Menu ☰</summary>
+      <div class="mobile-links">
+        <a href="#themes">New Tab Themes</a><a href="#coming-soon">Apps — Coming soon</a>
+        <a href="#how-it-works">How it works</a><a href="https://miveyo.github.io/dns-browser.html">About DNS Browser</a>
+      </div>
+    </details>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <div class="eyebrow"><span class="eyebrow-dot"></span>The DNS Browser collection</div>
+      <h1>A browser that feels <span>more like yours.</span></h1>
+      <p class="lead">Discover new looks for your new tab page. Find a theme you like and make DNS Browser feel at home.</p>
+      <div class="hero-actions"><a class="btn" href="#themes">Explore themes <span aria-hidden="true">→</span></a><a class="btn secondary" href="#how-it-works">How it works</a></div>
+      <div class="hero-meta"><span class="meta-check">✓</span> Made for DNS Browser 3.0 <span class="meta-separator"></span><span class="meta-muted">More app types are on the way</span></div>
+    </div>
+    <div class="hero-visual">
+      <div class="visual-glow"></div>
+      <div class="browser-window">
+        <div class="window-top"><div class="window-dots"><i></i><i></i><i></i></div><div class="window-address"><span class="lock">⌑</span> dnsbrowserapp.github.io</div><div class="window-menu">•••</div></div>
+        <div class="window-content">
+          <div class="window-brand"><span class="mini-brand-mark">D</span> DNS Browser</div>
+          <div class="window-logo">DNS</div>
+          <div class="window-search"><span>⌕</span> Search the web</div>
+          <div class="window-shortcuts"><i>G</i><i>M</i><i>◎</i><i>+</i></div>
+          <div class="window-caption">Your new tab. Your style.</div>
+        </div>
+      </div>
+      <div class="floating-card"><span class="floating-icon">✦</span><span><strong>Make it yours</strong><small>New tab themes</small></span></div>
+      <div class="visual-sparkle sparkle-one">✧</div><div class="visual-sparkle sparkle-two">✦</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="themes">
+  <div class="container">
+    <div class="section-head"><div><div class="eyebrow">Personalize your start page</div><h2>New Tab Themes</h2></div><p>Give your new tab a fresh look with themes made for DNS Browser. This catalogue is being prepared for its first theme releases.</p></div>
+    <div class="catalog-toolbar">
+      <label class="search-box" for="theme-search"><span aria-hidden="true">⌕</span><input id="theme-search" type="search" placeholder="Search themes..." autocomplete="off"><kbd>Ctrl K</kbd></label>
+      <div class="filters" role="group" aria-label="Filter themes">
+        <button class="filter-chip active" type="button" data-filter="all" aria-pressed="true">All themes</button>
+        <button class="filter-chip" type="button" data-filter="minimal" aria-pressed="false">Minimal</button>
+        <button class="filter-chip" type="button" data-filter="anime" aria-pressed="false">Anime</button>
+        <button class="filter-chip" type="button" data-filter="nature" aria-pressed="false">Nature</button>
+        <button class="filter-chip" type="button" data-filter="abstract" aria-pressed="false">Abstract</button>
+      </div>
+    </div>
+
+    <div class="catalog-grid" id="theme-grid">
+      <article class="theme-card" data-category="minimal" data-search="cloudline minimal blue sky clean calm">
+        <button class="theme-preview preview-cloudline" type="button" data-preview="cloudline" aria-label="Preview Cloudline theme"><span class="preview-label">NEW TAB PREVIEW</span><i class="art-sun"></i><i class="art-cloud cloud-a"></i><i class="art-cloud cloud-b"></i><i class="art-hill hill-a"></i><i class="art-hill hill-b"></i></button>
+        <div class="theme-info"><div class="theme-title-row"><h3>Cloudline</h3><span class="theme-kind">Minimal</span></div><p>A quiet blue horizon with plenty of breathing room.</p><div class="theme-bottom"><span class="theme-status">Sample listing</span><button class="text-button" type="button" data-install="cloudline">Install <span aria-hidden="true">→</span></button></div></div>
+      </article>
+      <article class="theme-card" data-category="anime" data-search="lavender quiet anime pastel purple character illustration">
+        <button class="theme-preview preview-lavender" type="button" data-preview="lavender" aria-label="Preview Lavender Quiet theme"><span class="preview-label">NEW TAB PREVIEW</span><i class="lavender-moon"></i><i class="lavender-star star-a">✦</i><i class="lavender-star star-b">✧</i><i class="char-hair"></i><i class="char-face"></i><i class="char-body"></i></button>
+        <div class="theme-info"><div class="theme-title-row"><h3>Lavender Quiet</h3><span class="theme-kind">Anime</span></div><p>A soft pastel concept with a calm, dreamy mood.</p><div class="theme-bottom"><span class="theme-status">Sample listing</span><button class="text-button" type="button" data-install="lavender">Install <span aria-hidden="true">→</span></button></div></div>
+      </article>
+      <article class="theme-card" data-category="nature" data-search="moss morning nature forest green calm">
+        <button class="theme-preview preview-moss" type="button" data-preview="moss" aria-label="Preview Moss Morning theme"><span class="preview-label">NEW TAB PREVIEW</span><i class="moss-sun"></i><i class="moss-leaf leaf-a"></i><i class="moss-leaf leaf-b"></i><i class="moss-ridge ridge-a"></i><i class="moss-ridge ridge-b"></i></button>
+        <div class="theme-info"><div class="theme-title-row"><h3>Moss Morning</h3><span class="theme-kind">Nature</span></div><p>Muted greens inspired by a slow morning outdoors.</p><div class="theme-bottom"><span class="theme-status">Sample listing</span><button class="text-button" type="button" data-install="moss">Install <span aria-hidden="true">→</span></button></div></div>
+      </article>
+      <article class="theme-card" data-category="abstract" data-search="soft geometry abstract gradient shapes blue pink">
+        <button class="theme-preview preview-geometry" type="button" data-preview="geometry" aria-label="Preview Soft Geometry theme"><span class="preview-label">NEW TAB PREVIEW</span><i class="geo-shape geo-one"></i><i class="geo-shape geo-two"></i><i class="geo-shape geo-three"></i></button>
+        <div class="theme-info"><div class="theme-title-row"><h3>Soft Geometry</h3><span class="theme-kind">Abstract</span></div><p>Rounded shapes and gentle color for a clean desktop.</p><div class="theme-bottom"><span class="theme-status">Sample listing</span><button class="text-button" type="button" data-install="geometry">Install <span aria-hidden="true">→</span></button></div></div>
+      </article>
+    </div>
+    <div class="empty-state" id="empty-state" hidden><div class="empty-icon">⌕</div><h3>No themes found</h3><p>Try another search or choose a different category.</p><button class="btn secondary" type="button" id="clear-filters">Clear filters</button></div>
+    <p class="catalog-note"><span class="note-dot"></span> These are sample catalogue previews. Theme downloads and one-click installation will be enabled when the DNS Browser integration is connected.</p>
+  </div>
+</section>
+
+<section class="section section-soft" id="coming-soon"><div class="container"><div class="feature-band">
+  <div class="feature-copy"><div class="eyebrow eyebrow-light">A growing collection</div><h2>Themes first. More apps later.</h2><p>New Tab Themes are the first supported category. Other DNS Browser apps and add-on types will appear here as they become available.</p></div>
+  <div class="coming-stack">
+    <div class="coming-item"><span class="coming-icon">▦</span><span><strong>New Tab Themes</strong><small>First category</small></span><span class="coming-live">Active</span></div>
+    <div class="coming-item muted"><span class="coming-icon">◇</span><span><strong>Browser apps</strong><small>More tools and add-ons</small></span><span class="coming-soon">Coming soon</span></div>
+    <div class="coming-item muted"><span class="coming-icon">⌘</span><span><strong>More customizations</strong><small>Future possibilities</small></span><span class="coming-soon">Coming soon</span></div>
+  </div>
+</div></div></section>
+
+<section class="section" id="how-it-works"><div class="container">
+  <div class="section-head"><div><div class="eyebrow">Simple by design</div><h2>How themes will work</h2></div><p>The planned install flow keeps the process inside DNS Browser. No manual file hunting or browser-extension setup.</p></div>
+  <div class="steps-grid">
+    <article class="step-card"><span class="step-number">01</span><div class="step-icon">⌕</div><h3>Find a theme</h3><p>Browse the collection and choose a new tab look that fits your style.</p></article>
+    <article class="step-card"><span class="step-number">02</span><div class="step-icon">↓</div><h3>Press Install</h3><p>DNS Browser will receive the theme details and download its files.</p></article>
+    <article class="step-card"><span class="step-number">03</span><div class="step-icon">✦</div><h3>Make it yours</h3><p>The browser will apply the theme and remember your choice in its settings.</p></article>
+  </div>
+  <div class="integration-callout"><span class="callout-icon">ⓘ</span><span><strong>Installer connection is not active yet.</strong> The website layout is ready for integration; the browser bridge and settings save will be added after the CefSharp code review.</span></div>
+</div></section>
+</main>
+
+<footer class="site-footer"><div class="container footer-inner">
+  <div class="footer-brand-block"><a class="brand footer-brand" href="#"><span class="brand-mark">D</span><span class="brand-copy"><span class="brand-name">DNS BROWSER</span><span class="brand-sub">APPS &amp; CUSTOMIZATION</span></span></a><p>Made for DNS Browser by Miveyo.</p><span class="footer-copy">© 2026 Miveyo. All rights reserved.</span></div>
+  <div class="footer-links"><a href="#themes">New Tab Themes</a><a href="#coming-soon">Coming soon</a><a href="#how-it-works">How it works</a><a href="https://miveyo.github.io/">Miveyo ↗</a></div>
+</div></footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<dialog class="theme-dialog" id="theme-dialog"><form method="dialog"><button class="dialog-close" aria-label="Close preview">×</button></form><div class="dialog-art" id="dialog-art"></div><div class="dialog-body"><span class="pill">Theme preview</span><h2 id="dialog-title">Theme name</h2><p id="dialog-description">Theme description</p><button class="btn" type="button" id="dialog-install">Install theme <span aria-hidden="true">→</span></button></div></dialog>
+<script src="assets/js/app-store.js" defer></script>
+</body>
+</html>
