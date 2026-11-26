@@ -1,8 +1,10 @@
-<!-- Replace the existing inline support-detection script in index.html with this. -->
+<!-- Replace the existing inline browser-detection <script> in index.html with this block. -->
 <script>
 (function () {
-  const isCefSharpHost = !!(window.CefSharp && typeof window.CefSharp.PostMessage === 'function');
-  document.documentElement.classList.add(isCefSharpHost ? 'browser-supported' : 'browser-unsupported');
-  if (isCefSharpHost) window.CefSharp.PostMessage({ type: 'dnsbrowser_store_ready', protocol: 1 });
+  const hasCefSharpBridge = typeof window.CefSharp !== 'undefined' &&
+    typeof window.CefSharp.PostMessage === 'function';
+  document.documentElement.classList.add(
+    hasCefSharpBridge ? 'browser-supported' : 'browser-unsupported'
+  );
 })();
 </script>

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "themes": [
+    {
+      "id": "lavender",
+      "name": "Lavender Quiet",
+      "category": "Anime",
+      "imageUrl": "https://dnsbrowserapp.github.io/themes/lavender/background.png",
+      "sha256": "55e0e7b392deb5424110060e68db7b32db0c26def98d4da6286c92a9d4c51a90"
+    }
+  ]
+}

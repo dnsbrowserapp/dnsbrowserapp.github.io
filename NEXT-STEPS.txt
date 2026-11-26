@@ -1,0 +1,15 @@
+DNS Browser Apps — first real theme upload
+
+1) Upload the contents of this ZIP to the ROOT of dnsbrowserapp/dnsbrowserapp.github.io, merging the themes folder.
+2) The archive contains themes/catalog.json and themes/lavender/background.png.
+3) The catalogue checksum is already calculated from the exact PNG file in this archive.
+4) In index.html, replace the old user-agent detection block with the contents of support-detection-script.html. The current index still checks navigator.userAgent for DNSBrowser/MiveyoDNS, which can reject DNS Browser when it uses the normal Edge/Chrome UA.
+5) Keep the current assets/js/app-store.js: it already calls CefSharp.PostMessage({ type: 'dnsbrowser_install_theme', themeId: id }) and listens for dnsbrowser-theme-install-result.
+
+Theme record:
+  id: lavender
+  name: Lavender Quiet
+  image: /themes/lavender/background.png
+  SHA-256: 55e0e7b392deb5424110060e68db7b32db0c26def98d4da6286c92a9d4c51a90
+
+Important: this theme image is the PNG bundled here. Do not re-encode or resize it after uploading, or the SHA-256 value will no longer match. If you replace it, calculate a new SHA-256 and update catalog.json.
