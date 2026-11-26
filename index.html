@@ -10,13 +10,54 @@
 <link rel="stylesheet" href="assets/css/app-store.css">
 <script>
 (function () {
-    const supported =
-        typeof window.CefSharp !== 'undefined' &&
-        typeof window.CefSharp.PostMessage === 'function';
 
-    document.documentElement.classList.add(
-        supported ? 'browser-supported' : 'browser-unsupported'
-    );
+    const root = document.documentElement;
+
+    function hasCefSharpBridge() {
+        return !!(
+            window.CefSharp &&
+            typeof window.CefSharp.PostMessage === 'function'
+        );
+    }
+
+    function updateSupport(supported) {
+
+        root.classList.remove(
+            'browser-supported',
+            'browser-unsupported'
+        );
+
+        root.classList.add(
+            supported ? 'browser-supported' : 'browser-unsupported'
+        );
+    }
+
+    if (hasCefSharpBridge()) {
+        updateSupport(true);
+        return;
+    }
+
+    updateSupport(false);
+
+    let attempts = 0;
+
+    const timer = setInterval(() => {
+
+        attempts++;
+
+        if (hasCefSharpBridge()) {
+
+            clearInterval(timer);
+            updateSupport(true);
+
+        } else if (attempts >= 20) {
+
+            clearInterval(timer);
+
+        }
+
+    }, 100);
+
 })();
 </script>
 </head>
