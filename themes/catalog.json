@@ -16,6 +16,14 @@
       "description": "megu",
       "imageUrl": "https://dnsbrowserapp.github.io/themes/megumin-deathbykawai/background-5981778a2b0a9cbc.png",
       "sha256": "5981778a2b0a9cbc317a8191f4d7f64b34bc04fe47417dd05ad74f13af92aa3b"
+    },
+    {
+      "id": "abstract-art-colorful-colors-design-illustration",
+      "name": "abstract, Art, Colorful, Colors, Design, Illustration, Light",
+      "category": "Abstract",
+      "description": "abstract",
+      "imageUrl": "https://dnsbrowserapp.github.io/themes/abstract-art-colorful-colors-design-illustration/background-cc394c870ae858c5.jpg",
+      "sha256": "cc394c870ae858c5c52a035ae22bf118b959cbf5ef0ec4c7aba4f7a06296699c"
     }
   ]
 }
