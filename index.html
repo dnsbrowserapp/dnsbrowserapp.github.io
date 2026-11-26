@@ -9,11 +9,14 @@
 <link rel="icon" href="https://miveyo.github.io/assets/images/dns-browser-logo.webp">
 <link rel="stylesheet" href="assets/css/app-store.css">
 <script>
-(function(){
-  const preview = new URLSearchParams(location.search).get('preview') === '1';
-  const supported = /DNSBrowser|MiveyoDNS/i.test(navigator.userAgent);
-  document.documentElement.classList.add(supported || preview ? 'browser-supported' : 'browser-unsupported');
-  if (preview && !supported) document.documentElement.classList.add('preview-mode');
+(function () {
+    const supported =
+        typeof window.CefSharp !== 'undefined' &&
+        typeof window.CefSharp.PostMessage === 'function';
+
+    document.documentElement.classList.add(
+        supported ? 'browser-supported' : 'browser-unsupported'
+    );
 })();
 </script>
 </head>
