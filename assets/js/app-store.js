@@ -60,14 +60,37 @@
     else showToast(theme.title + ' — preview is available in the catalogue.');
   }
 
-  function requestInstall(id) {
+function requestInstall(id) {
     const theme = themes[id];
-    if (!theme) return;
 
-    if (!window.CefSharp || typeof window.CefSharp.PostMessage !== 'function') {
-      showToast('This feature is available inside DNS Browser only.');
-      return;
+    if (!theme) {
+        showToast('Unknown theme.');
+        return;
     }
+
+    console.log('[DNS STORE] Install clicked:', id);
+
+    const bridge = window.CefSharp || window.cefSharp;
+
+    if (!bridge || typeof bridge.PostMessage !== 'function') {
+        console.error('[DNS STORE] CefSharp bridge unavailable.');
+        showToast('DNS Browser connection unavailable. Open this page directly in DNS Browser.');
+        return;
+    }
+
+    try {
+        bridge.PostMessage({
+            type: 'dnsbrowser_install_theme',
+            themeId: id
+        });
+
+        showToast('Installation request sent to DNS Browser…');
+
+    } catch (error) {
+        console.error('[DNS STORE] PostMessage failed:', error);
+        showToast('Could not communicate with DNS Browser.');
+    }
+}
 
     // Send only a catalogue ID. DNS Browser resolves the ID against its
     // trusted HTTPS catalogue and never trusts a URL supplied by this page.
