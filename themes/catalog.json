@@ -40,6 +40,14 @@
       "description": ".",
       "imageUrl": "https://dnsbrowserapp.github.io/themes/town/background-2902dde2171bbfcc.jpg",
       "sha256": "2902dde2171bbfcc70785fd36102f8cb25c26bb122ff53310286865b88f2b502"
+    },
+    {
+      "id": "dns-browser-light",
+      "name": "DNS Browser light",
+      "category": "Minimal",
+      "description": "DNS Browser light theme",
+      "imageUrl": "https://dnsbrowserapp.github.io/themes/dns-browser-light/background-d69cfe9f7c07bf60.png",
+      "sha256": "d69cfe9f7c07bf60f1e981de4799c4b03b72fb70130a655cda337edfea8a6a33"
     }
   ]
 }
