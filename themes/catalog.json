@@ -16,6 +16,14 @@
       "description": "abstract",
       "imageUrl": "https://dnsbrowserapp.github.io/themes/abstract-art-colorful-colors-design-illustration/background-cc394c870ae858c5.jpg",
       "sha256": "cc394c870ae858c5c52a035ae22bf118b959cbf5ef0ec4c7aba4f7a06296699c"
+    },
+    {
+      "id": "megumin-dark-background",
+      "name": "megumin dark background",
+      "category": "Anime",
+      "description": "megumin, konosuba",
+      "imageUrl": "https://dnsbrowserapp.github.io/themes/megumin-dark-background/background-1d19518fbd59120b.png",
+      "sha256": "1d19518fbd59120b4b4d8da14ceddcc19c6e17babdc386b0f6e1ab38caf3920a"
     }
   ]
 }
