@@ -48,6 +48,14 @@
       "description": "DNS Browser light theme",
       "imageUrl": "https://dnsbrowserapp.github.io/themes/dns-browser-light/background-d69cfe9f7c07bf60.png",
       "sha256": "d69cfe9f7c07bf60f1e981de4799c4b03b72fb70130a655cda337edfea8a6a33"
+    },
+    {
+      "id": "slava-auchynnikau",
+      "name": "slava-auchynnikau",
+      "category": "Nature",
+      "description": "slava-auchynnikau",
+      "imageUrl": "https://dnsbrowserapp.github.io/themes/slava-auchynnikau/background-9249fd3166488b39.jpg",
+      "sha256": "9249fd3166488b39e836938315668f08f8851ef79f27210f3e89a99ac4abc048"
     }
   ]
 }
