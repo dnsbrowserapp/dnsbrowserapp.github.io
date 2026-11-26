@@ -24,6 +24,14 @@
       "description": "megumin, konosuba",
       "imageUrl": "https://dnsbrowserapp.github.io/themes/megumin-dark-background/background-1d19518fbd59120b.png",
       "sha256": "1d19518fbd59120b4b4d8da14ceddcc19c6e17babdc386b0f6e1ab38caf3920a"
+    },
+    {
+      "id": "mountains-sunset",
+      "name": "mountains sunset",
+      "category": "Nature",
+      "description": ".",
+      "imageUrl": "https://dnsbrowserapp.github.io/themes/mountains-sunset/background-58df611d26a3d330.png",
+      "sha256": "58df611d26a3d33007c1990397e538a9352c75ebb7b2f54d691858f58492d212"
     }
   ]
 }
