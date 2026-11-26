@@ -1,0 +1,49 @@
+Replace the current inline browser-detection <script> in index.html with this version.
+It restores the ?preview=1 development preview option and waits up to 5 seconds for CefSharp.
+
+<script>
+(function () {
+    const root = document.documentElement;
+    const preview = new URLSearchParams(location.search).get('preview') === '1';
+
+    function hasCefSharpBridge() {
+        return !!(
+            window.CefSharp &&
+            typeof window.CefSharp.PostMessage === 'function'
+        );
+    }
+
+    function updateSupport(supported) {
+        root.classList.remove('browser-supported', 'browser-unsupported');
+        root.classList.add(supported ? 'browser-supported' : 'browser-unsupported');
+    }
+
+    // Development-only visual bypass. It does not provide the native install bridge.
+    if (preview) {
+        updateSupport(true);
+        return;
+    }
+
+    if (hasCefSharpBridge()) {
+        updateSupport(true);
+        return;
+    }
+
+    updateSupport(false);
+
+    let attempts = 0;
+    const timer = setInterval(() => {
+        attempts++;
+
+        if (hasCefSharpBridge()) {
+            clearInterval(timer);
+            updateSupport(true);
+        } else if (attempts >= 50) {
+            clearInterval(timer);
+        }
+    }, 100);
+})();
+</script>
+
+After updating app-store.js, change its reference near the end of index.html to:
+<script src="assets/js/app-store.js?v=5" defer></script>
