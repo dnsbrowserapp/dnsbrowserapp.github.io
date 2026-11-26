@@ -15,9 +15,15 @@
   const dialogTitle = $('#dialog-title');
   const dialogDescription = $('#dialog-description');
   const dialogInstall = $('#dialog-install');
+  const toastIcon = $('#toast-icon');
+  const toastTitle = $('#toast-title');
+  const toastMessage = $('#toast-message');
+  const toastImage = $('#toast-image');
+  const toastClose = $('#toast-close');
 
   let activeFilter = 'all';
   let toastTimer = 0;
+  let pendingInstallId = null;
 
   const themes = {
     cloudline: {
@@ -28,7 +34,8 @@
     lavender: {
       title: 'Lavender Quiet',
       description: 'A soft pastel concept with a calm, dreamy mood.',
-      category: 'Anime'
+      category: 'Anime',
+      imageUrl: 'themes/lavender/background.png'
     },
     moss: {
       title: 'Moss Morning',
@@ -42,16 +49,59 @@
     }
   };
 
-  function showToast(message) {
+  function showToast(message, type = 'info', themeId = null) {
     if (!toast) {
       console.info('[DNS STORE]', message);
       return;
     }
 
-    toast.textContent = message;
-    toast.classList.add('show');
+    const theme = themeId ? themes[themeId] : null;
+    const labels = {
+      success: ['✓', 'Theme installed'],
+      error: ['!', 'Installation failed'],
+      info: ['i', 'DNS Browser Apps']
+    };
+    const label = labels[type] || labels.info;
+
+    if (toastIcon) toastIcon.textContent = label[0];
+    if (toastTitle) toastTitle.textContent = label[1];
+    if (toastMessage) toastMessage.textContent = message;
+
+    if (toastImage) {
+      if (type === 'success' && theme && theme.imageUrl) {
+        toastImage.src = theme.imageUrl;
+        toastImage.alt = theme.title + ' wallpaper';
+        toastImage.hidden = false;
+      } else {
+        toastImage.removeAttribute('src');
+        toastImage.alt = '';
+        toastImage.hidden = true;
+      }
+    }
+
+    toast.classList.remove('toast-success', 'toast-error', 'toast-info');
+    toast.classList.add('toast-' + type, 'show');
     window.clearTimeout(toastTimer);
-    toastTimer = window.setTimeout(() => toast.classList.remove('show'), 4200);
+    toastTimer = window.setTimeout(() => toast.classList.remove('show'), 6500);
+  }
+
+  function updateInstallButtons(themeId, state) {
+    $$('[data-install]').forEach(button => {
+      if (button.dataset.install !== themeId) return;
+      if (!button.dataset.originalHtml) button.dataset.originalHtml = button.innerHTML;
+
+      if (state === 'busy') {
+        button.disabled = true;
+        button.setAttribute('aria-busy', 'true');
+        button.textContent = 'Installing…';
+      } else {
+        button.disabled = false;
+        button.removeAttribute('aria-busy');
+        button.innerHTML = state === 'installed'
+          ? 'Installed <span aria-hidden="true">✓</span>'
+          : button.dataset.originalHtml;
+      }
+    });
   }
 
   function filterThemes() {
@@ -86,40 +136,57 @@
     filterThemes();
   }
 
+  function appendFallbackArtwork(dialogElement, sourcePreview) {
+    dialogElement.className = 'dialog-art ' + (sourcePreview
+      ? Array.from(sourcePreview.classList).filter(c => c.startsWith('preview-')).join(' ')
+      : '');
+
+    if (sourcePreview) {
+      Array.from(sourcePreview.children).forEach(child => {
+        if (!child.classList.contains('theme-card-image')) {
+          dialogElement.appendChild(child.cloneNode(true));
+        }
+      });
+    }
+  }
+
   function openPreview(id) {
     const theme = themes[id];
     const sourcePreview = document.querySelector(`[data-preview="${id}"]`);
 
     if (!theme || !dialog || !dialogArt || !dialogTitle || !dialogDescription || !dialogInstall) {
       console.error('[DNS STORE] Preview elements missing for theme:', id);
-      showToast('The theme preview could not be opened.');
+      showToast('The theme preview could not be opened.', 'error');
       return;
     }
 
     dialogTitle.textContent = theme.title;
     dialogDescription.textContent = theme.description;
     dialogInstall.dataset.install = id;
-
-    // Reuse the actual preview artwork from the catalogue card.
-    // This keeps the modal preview visually consistent with its card.
-    dialogArt.className = `dialog-art ${sourcePreview ? Array.from(sourcePreview.classList).filter(c => c.startsWith('preview-')).join(' ') : ''}`;
-    dialogArt.style.position = 'relative';
-    dialogArt.style.overflow = 'hidden';
     dialogArt.replaceChildren();
 
-    if (sourcePreview) {
-      Array.from(sourcePreview.children).forEach(child => {
-        dialogArt.appendChild(child.cloneNode(true));
-      });
+    if (theme.imageUrl) {
+      dialogArt.className = 'dialog-art dialog-art-real';
+      const image = document.createElement('img');
+      image.src = theme.imageUrl;
+      image.alt = theme.title + ' wallpaper preview';
+      image.loading = 'eager';
+      image.decoding = 'async';
+      image.addEventListener('error', () => {
+        dialogArt.replaceChildren();
+        appendFallbackArtwork(dialogArt, sourcePreview);
+      }, { once: true });
+      dialogArt.appendChild(image);
+    } else {
+      appendFallbackArtwork(dialogArt, sourcePreview);
     }
 
     if (typeof dialog.showModal === 'function') {
       if (!dialog.open) dialog.showModal();
     } else {
-      // Fallback for older Chromium builds.
       dialog.setAttribute('open', '');
       dialog.style.display = 'block';
-      showToast(`${theme.title} preview opened.`);
+      showToast(`${theme.title} preview opened.`, 'info');
     }
   }
 
@@ -127,48 +194,74 @@
     const theme = themes[id];
 
     if (!theme) {
-      showToast('Unknown theme.');
+      showToast('Unknown theme.', 'error');
       return;
     }
 
-    console.info('[DNS STORE] Install clicked:', id);
+    if (pendingInstallId) {
+      showToast('A theme is already being installed. Please wait for it to finish.', 'info');
+      return;
+    }
 
     const bridge = window.CefSharp || window.cefSharp;
-
     if (!bridge || typeof bridge.PostMessage !== 'function') {
       console.warn('[DNS STORE] CefSharp PostMessage bridge is unavailable.');
-      showToast('Installation is available inside DNS Browser.');
+      showToast('Open this store inside DNS Browser to install themes.', 'error');
       return;
     }
 
     try {
+      pendingInstallId = id;
+      updateInstallButtons(id, 'busy');
+      showToast('Downloading ' + theme.title + '…', 'info');
       bridge.PostMessage({
         type: 'dnsbrowser_install_theme',
         themeId: id
       });
-
-      showToast('Installation request sent to DNS Browser…');
     } catch (error) {
       console.error('[DNS STORE] PostMessage failed:', error);
-      showToast('Could not communicate with DNS Browser.');
+      updateInstallButtons(id, 'idle');
+      pendingInstallId = null;
+      showToast('Could not communicate with DNS Browser. Please try again.', 'error');
     }
   }
 
-  // Receive the completion/failure event dispatched by webuin.vb.
+  // webuin dispatches this event only after the download and settings save finish.
   window.addEventListener('dnsbrowser-theme-install-result', event => {
     const result = event.detail || {};
-    showToast(result.message || (result.success ? 'Theme installed.' : 'Theme installation failed.'));
+    const themeId = (typeof result.themeId === 'string' && result.themeId) || pendingInstallId;
+    const succeeded = result.success === true;
+
+    if (pendingInstallId) updateInstallButtons(pendingInstallId, succeeded ? 'installed' : 'idle');
+    if (themeId && themeId !== pendingInstallId) updateInstallButtons(themeId, succeeded ? 'installed' : 'idle');
+    pendingInstallId = null;
+
+    if (succeeded) {
+      if (dialog && dialog.open && typeof dialog.close === 'function') dialog.close();
+      const theme = themeId ? themes[themeId] : null;
+      showToast(
+        theme ? theme.title + ' is now your new tab background.' : (result.message || 'Your new tab theme is ready.'),
+        'success',
+        themeId
+      );
+    } else {
+      showToast(result.message || 'The theme could not be installed. Check your connection and try again.', 'error');
+    }
   });
 
-  // Category filters.
+  if (toastClose) {
+    toastClose.addEventListener('click', () => {
+      window.clearTimeout(toastTimer);
+      if (toast) toast.classList.remove('show');
+    });
+  }
+
   filters.forEach(button => {
     button.addEventListener('click', () => setFilter(button.dataset.filter || 'all'));
   });
 
-  // Search box.
   if (search) search.addEventListener('input', filterThemes);
 
-  // Clear search/filter state.
   const clearFilters = $('#clear-filters');
   if (clearFilters) {
     clearFilters.addEventListener('click', () => {
@@ -178,22 +271,19 @@
     });
   }
 
-  // Preview buttons.
   $$('[data-preview]').forEach(button => {
     button.addEventListener('click', () => openPreview(button.dataset.preview));
   });
 
-  // Install buttons (both catalogue cards and the preview dialog).
   document.addEventListener('click', event => {
     const target = event.target instanceof Element ? event.target : null;
     const installButton = target ? target.closest('[data-install]') : null;
-    if (!installButton) return;
+    if (!installButton || installButton.disabled) return;
 
     event.preventDefault();
     requestInstall(installButton.dataset.install);
   });
 
-  // Close the dialog when its backdrop is clicked.
   if (dialog) {
     dialog.addEventListener('click', event => {
       if (event.target === dialog) {
@@ -206,7 +296,6 @@
     });
   }
 
-  // Keyboard shortcuts.
   document.addEventListener('keydown', event => {
     if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k' && search) {
       event.preventDefault();
@@ -218,7 +307,6 @@
     }
   });
 
-  // Close the mobile menu after navigation.
   const mobileMenu = $('.mobile-menu');
   if (mobileMenu) {
     $$('.mobile-menu a').forEach(link => {

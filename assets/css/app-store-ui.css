@@ -1,0 +1,186 @@
+/* Additional UI for the DNS Browser theme store.
+   Loaded after app-store.css so the original site styling stays untouched. */
+
+.theme-preview.has-theme-image {
+  position: relative;
+  background: #e9e4f7;
+}
+
+.theme-card-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.theme-preview.has-theme-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, #10182755, transparent 38%, transparent 72%, #10182718);
+}
+
+.theme-preview.has-theme-image .preview-label {
+  z-index: 1;
+  background: #ffffffd9;
+  color: #38445a;
+}
+
+.theme-status-available {
+  color: #11845b;
+  font-weight: 750;
+}
+
+.theme-bottom .text-button:disabled {
+  cursor: not-allowed;
+  color: #9aa5af;
+  text-decoration: none;
+}
+
+.dialog-art-real {
+  height: 260px;
+  overflow: hidden;
+  background: #151421;
+}
+
+.dialog-art-real img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  left: auto;
+  right: 24px;
+  bottom: 24px;
+  transform: translateY(18px);
+  width: min(430px, calc(100% - 32px));
+  max-width: 430px;
+  min-height: 82px;
+  padding: 13px 14px;
+  border-radius: 16px;
+  opacity: 0;
+  pointer-events: none;
+  text-align: left;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.toast-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border-radius: 12px;
+  background: #e8f8f0;
+  color: #11845b;
+  font-size: 19px;
+  font-weight: 850;
+}
+
+.toast-copy {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.toast-copy strong {
+  font-size: 13px;
+  color: #243447;
+}
+
+.toast-copy span {
+  font-size: 12px;
+  line-height: 1.45;
+  color: #6e7b88;
+}
+
+.toast-image {
+  display: block;
+  width: 72px;
+  height: 54px;
+  flex: none;
+  object-fit: cover;
+  border-radius: 9px;
+  background: #f0edf8;
+}
+
+.toast-image[hidden] {
+  display: none;
+}
+
+.toast-close {
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  flex: none;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #8b98a4;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.toast-close:hover {
+  background: #f1f4f7;
+  color: #34495e;
+}
+
+.toast-error .toast-icon {
+  background: #fff0ef;
+  color: #c3463d;
+}
+
+.toast-info .toast-icon {
+  background: #eaf5fc;
+  color: #0877d8;
+}
+
+.toast-error .toast-copy strong {
+  color: #9f3029;
+}
+
+.integration-connected {
+  border-left-color: #159b70;
+}
+
+.integration-connected .callout-icon {
+  color: #159b70;
+}
+
+@media (max-width: 520px) {
+  .toast {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    width: auto;
+    max-width: none;
+    transform: translateY(18px);
+  }
+
+  .toast.show {
+    transform: translateY(0);
+  }
+
+  .toast-image {
+    width: 60px;
+    height: 46px;
+  }
+
+  .dialog-art-real {
+    height: 220px;
+  }
+}

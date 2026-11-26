@@ -1,21 +1,29 @@
-DNS Browser Apps — Store UI Fix
+DNS Browser Apps — Ready-to-upload Theme Store UI files
+========================================================
 
-Files:
-- assets/js/app-store.js: complete replacement. Removes the broken leftover fragment which caused a parse-time syntax error and prevented all store interactions from initializing. Also makes the theme preview dialog reuse the card artwork.
-- INDEX-HEAD-SCRIPT.txt: replacement inline browser detection script for index.html. Restores the ?preview=1 development preview bypass. Preview bypass only shows the store UI; install still requires the CefSharp PostMessage bridge.
+This package contains the actual finished files. There is no PowerShell script.
 
-Upload steps:
-1. Replace assets/js/app-store.js in dnsbrowserapp/dnsbrowserapp.github.io with the file in this package.
-2. Replace the current inline detection script in index.html with the script in INDEX-HEAD-SCRIPT.txt.
-3. Change the app-store.js script reference to assets/js/app-store.js?v=5 to bust the cached broken script.
-4. Commit to main and wait for GitHub Pages deployment.
-5. In DNS Browser, open https://dnsbrowserapp.github.io/?preview=1 to test card previews, category filters and search. Then open the URL without ?preview=1 to test the actual CefSharp bridge.
+Copy/extract these paths into the ROOT of your existing dnsbrowserapp.github.io repository:
 
-Expected:
-- Clicking the preview artwork opens the modal and shows the card artwork.
-- Search and category filters work.
-- Clicking Install in a normal browser preview shows “Installation is available inside DNS Browser.”
-- Clicking Install inside DNS Browser sends { type: 'dnsbrowser_install_theme', themeId: '<id>' } using CefSharp.PostMessage.
+  index.html                         REPLACE the existing file
+  assets/js/app-store.js             REPLACE the existing file
+  assets/css/app-store-ui.css        ADD this new file
 
-Note:
-Only Lavender Quiet currently exists in themes/catalog.json, so it is the only published downloadable theme. The other cards remain design/demo items until their assets and catalogue hashes are published.
+Do not delete or replace your existing assets/css/app-store.css. The new stylesheet is
+loaded after it and contains only the extra preview/toast styles.
+
+What changed:
+- Lavender Quiet uses the real themes/lavender/background.png image in the card and dialog.
+- The install notification has a success/error state, theme name, thumbnail and close button.
+- The install buttons show Installing… and then Installed ✓ only after the browser sends
+  the dnsbrowser-theme-install-result event.
+- The three unpublished sample themes are marked Preview only / Coming soon and cannot
+  accidentally be sent to DNS Browser for installation.
+- ?preview=1 displays the website outside DNS Browser for visual testing only; it does not
+  emulate or enable the CefSharp installation bridge.
+
+The existing catalog image remains at themes/lavender/background.png and is not included
+in this package. Keep your existing themes folder and themes/catalog.json.
+
+After uploading, hard-refresh the site (Ctrl+F5). Test an actual install from inside
+DNS Browser 3.0, because a normal browser can preview the page but cannot install themes.
