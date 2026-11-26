@@ -8,6 +8,14 @@
       "description": "A soft pastel anime-inspired wallpaper with a calm, dreamy mood.",
       "imageUrl": "https://dnsbrowserapp.github.io/themes/lavender/background.png",
       "sha256": "55e0e7b392deb5424110060e68db7b32db0c26def98d4da6286c92a9d4c51a90"
+    },
+    {
+      "id": "megumin-deathbykawai",
+      "name": "megumin deathbykawai",
+      "category": "Anime",
+      "description": "megu",
+      "imageUrl": "https://dnsbrowserapp.github.io/themes/megumin-deathbykawai/background-5981778a2b0a9cbc.png",
+      "sha256": "5981778a2b0a9cbc317a8191f4d7f64b34bc04fe47417dd05ad74f13af92aa3b"
     }
   ]
 }
