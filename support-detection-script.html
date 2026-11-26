@@ -1,0 +1,8 @@
+<!-- Replace the existing inline support-detection script in index.html with this. -->
+<script>
+(function () {
+  const isCefSharpHost = !!(window.CefSharp && typeof window.CefSharp.PostMessage === 'function');
+  document.documentElement.classList.add(isCefSharpHost ? 'browser-supported' : 'browser-unsupported');
+  if (isCefSharpHost) window.CefSharp.PostMessage({ type: 'dnsbrowser_store_ready', protocol: 1 });
+})();
+</script>

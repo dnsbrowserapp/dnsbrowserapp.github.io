@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "themes": [
+    {
+      "id": "cloudline",
+      "name": "Cloudline",
+      "category": "Minimal",
+      "imageUrl": "https://dnsbrowserapp.github.io/themes/cloudline/background.png",
+      "sha256": "REPLACE_WITH_THE_64_CHARACTER_SHA256_OF_THE_IMAGE"
+    }
+  ]
+}

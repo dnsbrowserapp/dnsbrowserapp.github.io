@@ -1,0 +1,13 @@
+Add these two settings in Visual Studio > Project Properties > Settings:
+
+Name: newtabthemeid
+Type: String
+Scope: User
+Value: default
+
+Name: newtabthemeimagepath
+Type: String
+Scope: User
+Value: (empty)
+
+Both must be User-scoped so the browser can persist the selected theme per Windows user.

@@ -21,7 +21,7 @@
     toast.textContent = message;
     toast.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove('show'), 3600);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 4200);
   }
 
   function filterThemes() {
@@ -52,7 +52,7 @@
     const theme = themes[id];
     if (!theme) return;
     $('#dialog-title').textContent = theme.title;
-    $('#dialog-description').textContent = theme.description + ' This is a sample listing while the first theme collection is being prepared.';
+    $('#dialog-description').textContent = theme.description + ' This is a catalogue preview.';
     $('#dialog-art').className = 'dialog-art ' + theme.art;
     $('#dialog-install').dataset.install = id;
     const dialog = $('#theme-dialog');
@@ -60,39 +60,49 @@
     else showToast(theme.title + ' — preview is available in the catalogue.');
   }
 
-  async function requestInstall(id) {
+  function requestInstall(id) {
     const theme = themes[id];
     if (!theme) return;
-    // Temporary host contract. Final bridge naming and payload will be set
-    // after reviewing DNS Browser's CefSharp webuin and NewPageUI code.
-    const bridge = window.dnsBrowserApp;
-    if (bridge && typeof bridge.installNewTabTheme === 'function') {
-      try {
-        await bridge.installNewTabTheme({ id, name: theme.title, category: theme.category });
-        showToast('Installation request sent to DNS Browser.');
-      } catch (error) {
-        console.error('Theme install failed:', error);
-        showToast('DNS Browser could not install this theme. Please try again.');
-      }
+
+    if (!window.CefSharp || typeof window.CefSharp.PostMessage !== 'function') {
+      showToast('This feature is available inside DNS Browser only.');
       return;
     }
-    showToast('Theme installation will be enabled after the DNS Browser connection is added.');
+
+    // Send only a catalogue ID. DNS Browser resolves the ID against its
+    // trusted HTTPS catalogue and never trusts a URL supplied by this page.
+    window.CefSharp.PostMessage({ type: 'dnsbrowser_install_theme', themeId: id });
+    showToast('Sending the installation request to DNS Browser…');
   }
+
+  window.addEventListener('dnsbrowser-theme-install-result', event => {
+    const result = event.detail || {};
+    showToast(result.message || (result.success ? 'Theme installed.' : 'Theme installation failed.'));
+  });
 
   filters.forEach(button => button.addEventListener('click', () => setFilter(button.dataset.filter)));
   search.addEventListener('input', filterThemes);
   $('#clear-filters').addEventListener('click', () => { search.value = ''; setFilter('all'); search.focus(); });
   $$('[data-preview]').forEach(button => button.addEventListener('click', () => openPreview(button.dataset.preview)));
+
   document.addEventListener('click', event => {
     const installButton = event.target.closest('[data-install]');
     if (!installButton) return;
     event.preventDefault();
     requestInstall(installButton.dataset.install);
   });
-  $('#theme-dialog').addEventListener('click', event => { if (event.target === event.currentTarget) event.currentTarget.close(); });
-  document.addEventListener('keydown', event => {
-    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); search.focus(); }
+
+  $('#theme-dialog').addEventListener('click', event => {
+    if (event.target === event.currentTarget) event.currentTarget.close();
   });
+
+  document.addEventListener('keydown', event => {
+    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+      event.preventDefault();
+      search.focus();
+    }
+  });
+
   const mobileMenu = $('.mobile-menu');
   if (mobileMenu) $$('.mobile-menu a').forEach(link => link.addEventListener('click', () => mobileMenu.removeAttribute('open')));
   filterThemes();
